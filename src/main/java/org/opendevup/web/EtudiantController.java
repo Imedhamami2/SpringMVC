@@ -9,6 +9,7 @@ import javax.validation.Valid;
 import org.opendevup.dao.EtudiantRepository;
 import org.opendevup.entities.Etudiant;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
@@ -24,6 +25,11 @@ public class EtudiantController {
 	@Autowired
 	private EtudiantRepository etudiantRepository;
 	
+	// Recuperer le chemin du dossier pour uploader les images
+	//->Injecter la valeur declarer dans application.properties
+	@Value("${dir.images")
+	private String imageDir;
+	//->
 	@RequestMapping(value="/Index")
 	public String Index(Model model, 
 			@RequestParam(name="page", defaultValue="0")int page,
@@ -59,9 +65,13 @@ public class EtudiantController {
 		}
 		if (!(file.isEmpty()))
 		{
+			System.out.println("-----------");
+			System.out.println(System.getProperty("user.home")+"/sco_files/"+file.getOriginalFilename());
 			et.setPhoto(file.getOriginalFilename());
-			file.transferTo(new File(System.getProperty("user.home")+"/sco_file"));
-			//file.transferTo(new File(System.getProperty("user.home")+"/sco_file"));
+
+			// changer le chemin par la declaration au niveau du fichier allication.properties et faire (la jointure)
+			file.transferTo(new File(System.getProperty("user.home")+"/sco_files/"+file.getOriginalFilename()));
+			//file.transferTo(new File(imageDir));
 		}
 		etudiantRepository.save(et);
 		return "redirect:Index";

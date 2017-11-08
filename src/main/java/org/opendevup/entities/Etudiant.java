@@ -7,6 +7,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+
+import org.springframework.format.annotation.DateTimeFormat;
 @Entity
 public class Etudiant  implements Serializable{
 	@Id
@@ -14,6 +16,7 @@ public class Etudiant  implements Serializable{
 private Long id;
 	@Column (name="NOM", length=40)
 private String nom;
+@DateTimeFormat(pattern="yyyy-MM-dd")	
 private Date dateNaissance;
 private String email;
 //private byte[] photo;

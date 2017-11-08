@@ -11,20 +11,21 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
+import org.springframework.web.bind.annotation.RequestMethod;
 @Controller  
 @RequestMapping(value="/Etudiant")
 public class EtudiantController {
 	@Autowired
 	private EtudiantRepository etudiantRepository;
+	
 	@RequestMapping(value="/Index")
 	public String Index(Model model, 
 			@RequestParam(name="page", defaultValue="0")int page,
 			@RequestParam(name="motCle", defaultValue="")String mc )
 	{
-		// int âge c'est la page courante
+			// int âge c'est la page courante
 		Page<Etudiant> etds=etudiantRepository.chercherEtudiants("%"+mc+"%", new PageRequest(page, 2));
-		// sotcker les données dans un model avant de les retournées dans la vue
+			// sotcker les données dans un model avant de les retournées dans la vue
 		int pagesCount= etds.getTotalPages();
 		int [] pages=new int[pagesCount];
 		
@@ -36,5 +37,16 @@ public class EtudiantController {
 		model.addAttribute("pageEtudiants",etds);
 		model.addAttribute("motCle",mc);
 		return "etudiants";
+	}
+	@RequestMapping(value="/form",method=RequestMethod.GET)
+	public String formEtudiant(Model model){
+		model.addAttribute("etudiant", new Etudiant() );
+		return "formEtudiant";
+	}
+	
+	@RequestMapping(value="/SaveEtudiant",method=RequestMethod.POST)
+	public String save(Etudiant et){
+		etudiantRepository.save(et);
+		return "redirect:Index";
 	}
 }

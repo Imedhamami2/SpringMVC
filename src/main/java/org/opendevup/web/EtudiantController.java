@@ -1,6 +1,10 @@
 package org.opendevup.web;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
+
+import javax.validation.Valid;
 
 import org.opendevup.dao.EtudiantRepository;
 import org.opendevup.entities.Etudiant;
@@ -9,8 +13,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.bind.annotation.RequestMethod;
 @Controller  
 @RequestMapping(value="/Etudiant")
@@ -45,7 +51,18 @@ public class EtudiantController {
 	}
 	
 	@RequestMapping(value="/SaveEtudiant",method=RequestMethod.POST)
-	public String save(Etudiant et){
+	public String save(@Valid Etudiant et, BindingResult bindingResult,@RequestParam (name="picture") MultipartFile file) throws IllegalStateException, IOException{
+		if (bindingResult.hasErrors())
+		{ 
+			return "formEtudiant";
+
+		}
+		if (!(file.isEmpty()))
+		{
+			et.setPhoto(file.getOriginalFilename());
+			file.transferTo(new File(System.getProperty("user.home")+"/sco_file"));
+			//file.transferTo(new File(System.getProperty("user.home")+"/sco_file"));
+		}
 		etudiantRepository.save(et);
 		return "redirect:Index";
 	}

@@ -19,24 +19,29 @@
 		<div class="panel panel-default ">
 			<div class="panel-heading">saisie d'un étudiant</div>
 			<div class="panel-body">
-				<form th:action="@{SaveEtudiant}" method="post" th:object="${etudiant}" >
+				<form th:action="@{SaveEtudiant}" method="post" th:object="${etudiant}" enctype="multipart/form-data">
 					<div class="form-group">
 						<label class="control-label">Nom: </label> <input type="text"
-							th:field="*{nom}" class="form-control" /> <span></span>
+							th:field="*{nom}" class="form-control" /> 
+							<span class="text-danger" th:errors="*{nom}"></span>
 					</div>
 					<div class="form-group">
 						<label class="control-label">Date de naissance: </label> <input
-							type="date" th:field="*{dateNaissance}" class="form-control" /> <span></span>
+							type="date" th:field="*{dateNaissance}" class="form-control" /> 
+														<span class="text-danger" th:errors="*{dateNaissance}"></span>
+							
 					</div>
 
 					<div class="form-group">
 						<label class="control-label">Email: </label> <input type="text"
-							th:field="*{email}" class="form-control" /> <span></span>
+							th:field="*{email}" class="form-control" /> 
+							<span class="text-danger" th:errors="*{email}"></span>
 					</div>
 
 					<div class="form-group">
 						<label class="control-label">Photo: </label> <input type="file"
-							th:field="*{photo}" class="form-control" /> <span></span>
+							name="picture" class="form-control" /> 
+							<span class="text-danger" th:errors="*{photo}"></span>
 					</div>
 					<div>
 						<button type="submit" class="btn btn-primary">Enregister</button>

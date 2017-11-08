@@ -11,9 +11,12 @@
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
 	integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
-	crossorigin="anonymous"/>
+	crossorigin="anonymous" />
 </head>
 <body>
+	<div class="container spacer">
+		<a th:href="@{form}">Saisir un étudiant</a>
+	</div>
 	<div class="container spacer">
 		<form th:action="@{Index}" method="get">
 			<div>

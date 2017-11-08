@@ -23,7 +23,7 @@ public class EtudiantController {
 			@RequestParam(name="page", defaultValue="0")int page,
 			@RequestParam(name="motCle", defaultValue="")String mc )
 	{
-			// int âge c'est la page courante
+			// int âge c'est la page courante ///
 		Page<Etudiant> etds=etudiantRepository.chercherEtudiants("%"+mc+"%", new PageRequest(page, 2));
 			// sotcker les données dans un model avant de les retournées dans la vue
 		int pagesCount= etds.getTotalPages();
